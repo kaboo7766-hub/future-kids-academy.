@@ -4,37 +4,237 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>أكاديمية المستقبل التعليمية — Future Academy</title>
-  <link rel="stylesheet" href="css/main.css">
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-blue: #2A75D3;
+      --secondary-green: #2EC4B6;
+      --bg-light: #F8FAFC;
+      --white: #FFFFFF;
+      --text-dark: #1E293B;
+      --text-muted: #64748B;
+      --border-color: #E2E8F0;
+      --radius-card: 16px;
+      --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.05);
+      --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Cairo', sans-serif;
+      direction: rtl;
+      text-align: right;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+    .container { width: 90%; max-width: 1200px; margin: 0 auto; }
+    .navbar { background: var(--white); box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 100; }
+    .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; }
+    .nav-links a { text-decoration: none; color: var(--text-dark); font-weight: 600; margin: 0 12px; cursor: pointer; }
+    .nav-links a:hover { color: var(--primary-blue); }
+    .btn { display: inline-block; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; cursor: pointer; border: none; transition: 0.2s; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background-color: var(--primary-blue); color: var(--white); }
+    .btn-secondary { background-color: var(--secondary-green); color: var(--white); }
+    .hero { padding: 80px 0; background: linear-gradient(135deg, #E0F2FE 0%, #F0FDF4 100%); text-align: center; }
+    .hero h1 { font-size: 2.8rem; color: var(--primary-blue); margin-bottom: 1rem; }
+    .auth-container { max-width: 450px; margin: 60px auto; background: var(--white); padding: 40px; border-radius: var(--radius-card); box-shadow: var(--shadow-md); }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 8px; }
+    .form-group input { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; font-family: inherit; }
+    .alert-box { padding: 12px; border-radius: 8px; margin-bottom: 15px; display: none; }
+    .alert-error { background: #FEE2E2; color: #991B1B; }
+    .alert-success { background: #DCFCE7; color: #166534; }
+    .footer { background: var(--text-dark); color: var(--white); padding: 30px 0; margin-top: 60px; text-align: center; }
+    .page-section { display: none; padding: 40px 0; }
+    .page-section.active { display: block; }
+  </style>
 </head>
 <body>
+
+  <!-- شريط التنقل العلوي الموحد -->
   <header class="navbar">
     <div class="container nav-container">
       <div class="logo"><h2>🎓 أكاديمية المستقبل</h2></div>
       <nav class="nav-links">
-        <a href="index.html" class="active">الرئيسية</a>
-        <a href="#features">المميزات</a>
+        <a onclick="switchPage('home')">الرئيسية</a>
+        <a onclick="switchPage('login')">تسجيل الدخول</a>
       </nav>
-      <div class="auth-buttons">
-        <a href="login.html" class="btn btn-secondary">تسجيل الدخول</a>
-      </div>
+      <div id="nav-user-info"></div>
     </div>
   </header>
 
-  <section class="hero">
-    <div class="container">
-      <div class="hero-content">
+  <!-- 1. الصفحة الرئيسية -->
+  <section id="page-home" class="page-section active">
+    <div class="hero">
+      <div class="container">
         <h1>رحلتك نحو مستقبل أفضل تبدأ هنا 🚀</h1>
         <p>منصة تعليمية متكاملة ومخصصة لأطفال رياض الأطفال والمرحلة الابتدائية.</p>
-        <a href="login.html" class="btn btn-primary btn-large">ابدأ التعلم الآن</a>
+        <br>
+        <button onclick="switchPage('login')" class="btn btn-primary btn-large">ابدأ التعلم الآن</button>
       </div>
     </div>
   </section>
 
+  <!-- 2. صفحة تسجيل الدخول -->
+  <section id="page-login" class="page-section">
+    <div class="auth-container">
+      <h2 style="text-align: center; margin-bottom: 24px;">تسجيل الدخول</h2>
+      <div id="alert-box" class="alert-box alert-error"></div>
+      <form id="login-form">
+        <div class="form-group">
+          <label>البريد الإلكتروني</label>
+          <input type="email" id="email" required placeholder="name@example.com">
+        </div>
+        <div class="form-group">
+          <label>كلمة المرور</label>
+          <input type="password" id="password" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">دخول</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- 3. لوحة تحكم الطالب -->
+  <section id="page-student" class="page-section">
+    <div class="container">
+      <h2>لوحة تحكم الطالب - المقررات والدروس</h2>
+      <div id="student-content" style="margin-top: 20px;">جاري التحميل...</div>
+    </div>
+  </section>
+
+  <!-- 4. لوحة تحكم ولي الأمر -->
+  <section id="page-parent" class="page-section">
+    <div class="container">
+      <h2>متابعة الأبناء والتقدم الدراسي</h2>
+      <div id="parent-content" style="margin-top: 20px;">جاري التحميل...</div>
+    </div>
+  </section>
+
+  <!-- 5. لوحة تحكم المعلم -->
+  <section id="page-teacher" class="page-section">
+    <div class="container">
+      <h2>إضافة درس تعليمي جديد</h2>
+      <form id="add-lesson-form" style="background: white; padding: 24px; border-radius: 12px; margin-top: 20px; max-width: 600px;">
+        <div class="form-group"><label>عنوان الدرس</label><input type="text" id="lesson-title" required></div>
+        <div class="form-group"><label>وصف الدرس</label><input type="text" id="lesson-desc" required></div>
+        <div class="form-group"><label>رابط الفيديو</label><input type="url" id="lesson-video" required></div>
+        <button type="submit" class="btn btn-primary">نشر الدرس</button>
+      </form>
+      <div id="teacher-alert" style="margin-top: 10px;"></div>
+    </div>
+  </section>
+
   <footer class="footer">
-    <div class="container footer-container">
+    <div class="container">
       <p>&copy; 2026 أكاديمية المستقبل التعليمية — جميع الحقوق محفوظة.</p>
     </div>
   </footer>
+
+  <!-- سكربت الفايربيس والتوجيه الديناميكي -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc, collection, getDocs, addDoc, serverTimestamp, query, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "future-academy.firebaseapp.com",
+      projectId: "future-academy",
+      storageBucket: "future-academy.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // التنقل بين الواجهات داخل الملف الواحد
+    window.switchPage = function(pageId) {
+      document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById('page-' + pageId).classList.add('active');
+    }
+
+    const loginForm = document.getElementById("login-form");
+    const alertBox = document.getElementById("alert-box");
+
+    if (loginForm) {
+      loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+
+        try {
+          const cred = await signInWithEmailAndPassword(auth, email, password);
+          const userDoc = await getDoc(doc(db, "users", cred.user.uid));
+
+          if (userDoc.exists()) {
+            const role = userDoc.data().role;
+            if (role === "student") { switchPage("student"); loadStudentData(cred.user.uid); }
+            else if (role === "parent") { switchPage("parent"); loadParentData(cred.user.uid); }
+            else if (role === "teacher") { switchPage("teacher"); }
+            else { switchPage("home"); }
+          } else {
+            alertBox.textContent = "لم يتم العثور على بيانات المستخدم.";
+            alertBox.style.display = "block";
+          }
+        } catch (err) {
+          alertBox.textContent = "فشل تسجيل الدخول: تأكد من البريد وكلمة المرور.";
+          alertBox.style.display = "block";
+        }
+      });
+    }
+
+    async function loadStudentData(uid) {
+      const container = document.getElementById("student-content");
+      try {
+        const snap = await getDocs(collection(db, "lessons"));
+        if (snap.empty) { container.innerHTML = "<p>لا توجد دروس حالياً.</p>"; return; }
+        let html = "";
+        snap.forEach(d => {
+          let l = d.data();
+          html += `<div style="background:white; padding:15px; border-radius:8px; margin-bottom:10px;"><h4>${l.title}</h4><p>${l.description || ""}</p></div>`;
+        });
+        container.innerHTML = html;
+      } catch(e) { container.innerHTML = "<p>خطأ في جلب الدروس.</p>"; }
+    }
+
+    async function loadParentData(uid) {
+      const container = document.getElementById("parent-content");
+      try {
+        const q = query(collection(db, "users"), where("role", "==", "student"), where("parentId", "==", uid));
+        const snap = await getDocs(q);
+        if (snap.empty) { container.innerHTML = "<p>لا توجد بيانات للأبناء مرتبطة بحسابك.</p>"; return; }
+        let html = "";
+        snap.forEach(d => {
+          let s = d.data();
+          html += `<div style="background:white; padding:15px; border-radius:8px; margin-bottom:10px;"><h3>👦 ${s.fullName}</h3><p>الصف: ${s.gradeName || "غير محدد"}</p></div>`;
+        });
+        container.innerHTML = html;
+      } catch(e) { container.innerHTML = "<p>خطأ في تحميل البيانات.</p>"; }
+    }
+
+    const addLessonForm = document.getElementById("add-lesson-form");
+    if (addLessonForm) {
+      addLessonForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        try {
+          await addDoc(collection(db, "lessons"), {
+            title: document.getElementById("lesson-title").value,
+            description: document.getElementById("lesson-desc").value,
+            videoUrl: document.getElementById("lesson-video").value,
+            createdAt: serverTimestamp()
+          });
+          document.getElementById("teacher-alert").textContent = "تم نشر الدرس بنجاح!";
+          document.getElementById("teacher-alert").style.color = "green";
+          addLessonForm.reset();
+        } catch(err) {
+          document.getElementById("teacher-alert").textContent = "خطأ في النشر.";
+          document.getElementById("teacher-alert").style.color = "red";
+        }
+      });
+    }
+  </script>
 </body>
 </html>
